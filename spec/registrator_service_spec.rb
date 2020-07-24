@@ -11,24 +11,28 @@ RSpec.describe RegistratorService do
       expect(registrator.game_registration.class).to eq Codebreaker::Game
     end
 
-    it 'puts error when name is an incorrect' do
-      allow(registrator).to receive(:gets).and_return('Po', 'Pop', 'hell')
-      expect { registrator.game_registration }.to output(
-        "Please, enter your name(3-20 symbols):\n" \
-        "Name is too short\n\n" \
-        "Please, enter your name(3-20 symbols):\n" \
-        "Choose difficulty: easy, medium, hell:\n"
-      ).to_stdout
+    context 'when name is incorrect' do
+      it 'puts incorrect name passed message' do
+        allow(registrator).to receive(:gets).and_return('Po', 'Pop')
+        allow(registrator).to receive(:create_difficulty)
+        expect { registrator.game_registration }.to output(
+          "#{I18n.t :enter_name}\n" \
+          "#{I18n.t :short_name}\n" \
+          "#{I18n.t :enter_name}\n"
+        ).to_stdout
+      end
     end
 
-    it 'puts error when difficulty is an incorrect' do
-      allow(registrator).to receive(:gets).and_return('Pop', 'hel', 'hell')
-      expect { registrator.game_registration }.to output(
-        "Please, enter your name(3-20 symbols):\n" \
-        "Choose difficulty: easy, medium, hell:\n" \
-        "No such difficulty\n\n" \
-        "Choose difficulty: easy, medium, hell:\n"
-      ).to_stdout
+    context 'when difficulty is an incorrect' do
+      it 'puts incorrect difficulty passed message' do
+        allow(registrator).to receive(:gets).and_return('hel', 'hell')
+        allow(registrator).to receive(:create_user)
+        expect { registrator.game_registration }.to output(
+          "#{I18n.t :enter_difficulty}\n" \
+          "#{I18n.t :no_difficulty}\n" \
+          "#{I18n.t :enter_difficulty}\n"
+        ).to_stdout
+      end
     end
   end
 end
