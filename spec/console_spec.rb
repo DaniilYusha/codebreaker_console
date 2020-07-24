@@ -60,13 +60,13 @@ RSpec.describe Console do
 
   describe '#start' do
     it 'sets game instance variable' do
-      allow(console).to receive(:game_process)
+      allow(console).to receive(:start_game_process)
       expect(console.registrator).to receive(:game_registration)
       console.start
     end
   end
 
-  describe '#game_process' do
+  describe '#start_game_process' do
     before { console.instance_variable_set(:@game, game) }
 
     context 'when incorrect guess passed' do
@@ -74,7 +74,7 @@ RSpec.describe Console do
         allow(console).to receive(:gets).and_return('ssda')
         allow(console).to receive(:ask_about_new_game)
         expect(console).to receive(:error_message).with('ssda').at_least(:once)
-        console.game_process
+        console.start_game_process
       end
     end
 
@@ -85,14 +85,14 @@ RSpec.describe Console do
         allow(console).to receive(:ask_about_new_game)
         allow(console).to receive(:gets).and_return(console.game.secret_code.join)
         expect(console).to receive(:won)
-        console.game_process
+        console.start_game_process
       end
 
       it 'ask to save results' do
         allow(console).to receive(:ask_about_new_game)
         allow(console).to receive(:gets).and_return(console.game.secret_code.join)
         expect(console).to receive(:ask_about_save_results)
-        console.game_process
+        console.start_game_process
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe Console do
         console.game.difficulty.instance_variable_set(:@current_attempts, 1)
         allow(console).to receive(:gets).and_return('1234')
         expect(console).to receive(:lost)
-        console.game_process
+        console.start_game_process
       end
     end
   end

@@ -37,7 +37,7 @@ RSpec.describe Console do
 
     it 'calls start command' do
       allow(console).to receive(:gets).and_return('start')
-      allow(console).to receive(:game_process)
+      allow(console).to receive(:start_game_process)
       expect(console).to receive(:start)
       console.ask_choose_game_option
     end

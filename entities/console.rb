@@ -23,7 +23,7 @@ class Console
   def start
     system 'clear'
     @game = @registrator.game_registration
-    game_process
+    start_game_process
   end
 
   def stats
@@ -53,7 +53,7 @@ class Console
     exit true
   end
 
-  def game_process
+  def start_game_process
     system 'clear'
     until game.lose?
       show_current_state
@@ -90,7 +90,7 @@ class Console
   def start_new_game
     system 'clear'
     @game.new_game
-    game_process
+    start_game_process
   end
 
   def error_message(obj)
