@@ -10,10 +10,12 @@ RSpec.describe Console do
   before { allow($stdout).to receive(:write) }
 
   describe '#hint' do
-    it 'puts error when hints left' do
-      console.instance_variable_set(:@game, game)
-      console.game.difficulty.instance_variable_set(:@current_hints, 0)
-      expect { console.hint }.to output(console.output.no_hints).to_stdout
+    context 'when hints left' do
+      it 'puts no hints message' do
+        console.instance_variable_set(:@game, game)
+        console.game.difficulty.instance_variable_set(:@current_hints, 0)
+        expect { console.hint }.to output(console.output.no_hints).to_stdout
+      end
     end
 
     it 'puts hint with message' do
@@ -41,8 +43,10 @@ RSpec.describe Console do
 
     after { File.delete(stats_path) }
 
-    it 'puts message when file is not exists or empty' do
-      expect { console.stats }.to output(console.output.no_stats).to_stdout
+    context 'when file is not exists or empty' do
+      it 'puts no statistics message' do
+        expect { console.stats }.to output(console.output.no_stats).to_stdout
+      end
     end
 
     it 'puts statistics header' do
@@ -101,52 +105,6 @@ RSpec.describe Console do
       end
     end
   end
-
-  # describe '#ask_choose_game_option' do
-  #   it 'puts commands description message' do
-  #     allow(console).to receive(:gets).and_return('exit')
-  #     allow(console).to receive(:leave)
-  #     expect { console.ask_choose_game_option }.to output(console.output.commands_description).to_stdout
-  #   end
-  #
-  #   it 'puts unexpected command message' do
-  #     allow(console).to receive(:gets).and_return('YUSHA')
-  #     expect { console.ask_choose_game_option }.to output(console.output.unexpected_command).to_stdout
-  #   end
-  #
-  #   it 'calls stats command' do
-  #     allow(console).to receive(:gets).and_return('stats')
-  #     expect(console).to receive(:stats)
-  #     console.ask_choose_game_option
-  #   end
-  #
-  #   it 'calls rules command' do
-  #     allow(console).to receive(:gets).and_return('rules')
-  #     expect(console).to receive(:rules)
-  #     console.ask_choose_game_option
-  #   end
-  #
-  #   it 'calls start command' do
-  #     allow(console).to receive(:gets).and_return('start')
-  #     allow(console).to receive(:game_process)
-  #     expect(console).to receive(:start)
-  #     console.ask_choose_game_option
-  #   end
-  # end
-  #
-  # describe '#ask_about_save_results' do
-  #   it 'returns when answer is NO' do
-  #     allow(console).to receive(:gets).and_return(Questioner::NO)
-  #     expect(console.ask_about_save_results.class).to eq NilClass
-  #   end
-  # end
-  #
-  # describe '#ask_about_new_game' do
-  #   it 'exit from game when answer is NO' do
-  #     allow(console).to receive(:gets).and_return(Questioner::NO)
-  #     expect { console.ask_about_new_game }.to raise_error(SystemExit)
-  #   end
-  # end
 
   describe '#leave' do
     it 'puts bye message and exit' do
