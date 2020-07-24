@@ -11,6 +11,7 @@ class Console
     @registrator = RegistratorService.new
     @decorator = Decorator.new
     @statistics = Codebreaker::StatisticsService.new FILE_PATH
+    @error_exist = false
     @output.introduction
   end
 
