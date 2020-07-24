@@ -30,7 +30,9 @@ en:
           * Codebreaker also has some number of hints(depends on chosen difficulty). If a user takes\n
           a hint - he receives back a separate digit of the secret code."
   enter_name: 'Please, enter your name(3-20 symbols):'
+  short_name: "Name is too short\n"
   enter_difficulty: 'Choose difficulty: easy, medium, hell:'
+  no_difficulty: "No such difficulty\n"
   enter_guess: 'Enter your guess, take "hint" or press "exit":'
   no_hints: "\nYou have no any hints."
   show_hint: "\nHint: "
