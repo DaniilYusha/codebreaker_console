@@ -12,19 +12,22 @@ module Questioner
   def ask_about_new_game
     @output.again
     input = gets.chomp
-    start_new_game if input == YES
-    exit if input == NO
-    @output.unexpected_command
+    case input
+    when YES then start_new_game
+    when NO then exit
+    else @output.unexpected_command
+    end
     ask_about_new_game
   end
 
   def ask_about_save_results
     @output.save
     input = gets.chomp
-    return @statistics.store game if input == YES
-    return if input == NO
-
-    @output.unexpected_command
+    case input
+    when YES then return @statistics.store game
+    when NO then return
+    else @output.unexpected_command
+    end
     ask_about_save_results
   end
 
