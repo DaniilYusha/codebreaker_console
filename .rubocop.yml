@@ -6,4 +6,4 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/codebreaker_console/*_spec.rb'
+    - 'spec/*_spec.rb'
