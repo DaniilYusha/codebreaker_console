@@ -48,6 +48,10 @@ RSpec.describe Console do
     it 'puts statistics header' do
       expect { console.stats }.to output(console.output.show_stats).to_stdout
     end
+
+    it "puts user's statistics" do
+      expect(console.stats.class).to eq Array
+    end
   end
 
   describe '#start' do
