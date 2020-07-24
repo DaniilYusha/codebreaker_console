@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Console do
+  let(:user) { Codebreaker::User.new('Daniil') }
+  let(:difficulty) { Codebreaker::Difficulty.new('hell') }
+  let(:game) { Codebreaker::Game.new(user, difficulty) }
   let(:console) { described_class.new }
 
-  before { allow($stdout).to receive(:write) }
+  before do
+    allow($stdout).to receive(:write)
+    console.instance_variable_set(:@game, game)
+  end
 
   describe '#ask_choose_game_option' do
     it 'puts commands description message' do
@@ -38,29 +44,58 @@ RSpec.describe Console do
   end
 
   describe '#ask_about_save_results' do
-    it 'returns when answer is NO' do
-      allow(console).to receive(:gets).and_return(Questioner::NO)
-      expect(console.ask_about_save_results.class).to eq NilClass
+    context "when answer is #{Questioner::NO}" do
+      it 'move to next step' do
+        allow(console).to receive(:gets).and_return(Questioner::NO)
+        expect(console.ask_about_save_results.class).to eq NilClass
+      end
+    end
+
+    context "when answer is #{Questioner::YES}" do
+      it 'saves result to file' do
+        allow(console).to receive(:gets).and_return(Questioner::YES)
+        expect(console.ask_about_save_results.class).to eq NilClass
+      end
+    end
+
+    context 'when passed unexpected command' do
+      it 'puts unexpected command message' do
+        allow(console).to receive(:gets).and_return('YUSHA', 'n')
+        expect { console.ask_about_save_results }.to output(console.output.commands_description).to_stdout
+      end
     end
   end
 
   describe '#ask_about_new_game' do
-    it 'exit from game when answer is NO' do
-      allow(console).to receive(:gets).and_return(Questioner::NO)
-      expect { console.ask_about_new_game }.to raise_error(SystemExit)
+    context "when answer is #{Questioner::NO}" do
+      it 'exit from game' do
+        allow(console).to receive(:gets).and_return(Questioner::NO)
+        expect { console.ask_about_new_game }.to raise_error(SystemExit)
+      end
+    end
+
+    context "when answer is #{Questioner::YES}" do
+      it 'starts a new game and leave it' do
+        allow(console).to receive(:gets).and_return(Questioner::YES, 'exit')
+        expect { console.ask_about_new_game }.to raise_error(SystemExit)
+      end
     end
   end
 
   describe '#ask_choose_command_in_game_process' do
-    it 'exit from game when passed exit command' do
-      allow(console).to receive(:gets).and_return(Questioner::EXIT_COMMAND)
-      expect { console.ask_choose_command_in_game_process }.to raise_error(SystemExit)
+    context "when passed #{Questioner::EXIT_COMMAND} command" do
+      it 'leave the game' do
+        allow(console).to receive(:gets).and_return(Questioner::EXIT_COMMAND)
+        expect { console.ask_choose_command_in_game_process }.to raise_error(SystemExit)
+      end
     end
 
-    it 'calls hint method when passed hint command' do
-      allow(console).to receive(:gets).and_return(Questioner::HINT_COMMAND)
-      expect(console).to receive(:hint)
-      console.ask_choose_command_in_game_process
+    context "when passed #{Questioner::HINT_COMMAND} command" do
+      it 'calls hint method' do
+        allow(console).to receive(:gets).and_return(Questioner::HINT_COMMAND)
+        expect(console).to receive(:hint)
+        console.ask_choose_command_in_game_process
+      end
     end
   end
 end
