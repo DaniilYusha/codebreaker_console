@@ -7,9 +7,7 @@ RSpec.describe Console do
   let(:game) { Codebreaker::Game.new(user, difficulty) }
   let(:console) { described_class.new }
 
-  before do
-    allow($stdout).to receive(:write)
-  end
+  before { allow($stdout).to receive(:write) }
 
   describe '#hint' do
     it 'puts error when hints left' do

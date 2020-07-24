@@ -2,6 +2,8 @@
 
 RSpec.describe RegistratorService do
   let(:registrator) { described_class.new }
+  
+  before { allow($stdout).to receive(:write) }
 
   describe '#game_registration' do
     it 'returns an instance of Game class' do
