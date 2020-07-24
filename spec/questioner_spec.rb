@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Console do
+  let(:stats_path) { './db/test.yml' }
   let(:user) { Codebreaker::User.new('Daniil') }
   let(:difficulty) { Codebreaker::Difficulty.new('hell') }
   let(:game) { Codebreaker::Game.new(user, difficulty) }
@@ -52,6 +53,9 @@ RSpec.describe Console do
     end
 
     context "when answer is #{Questioner::YES}" do
+      before { console.instance_variable_set(:@statistics, Codebreaker::StatisticsService.new(stats_path)) }
+      after { File.delete(stats_path) }
+
       it 'saves result to file' do
         allow(console).to receive(:gets).and_return(Questioner::YES)
         expect(console.ask_about_save_results.class).to eq NilClass
