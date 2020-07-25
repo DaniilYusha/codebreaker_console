@@ -52,10 +52,7 @@ RSpec.describe Console do
     end
 
     context "when answer is #{Questioner::YES}" do
-      after { File.delete(stats_path) }
-
       it 'saves result to file' do
-        console.instance_variable_set(:@statistics, Codebreaker::StatisticsService.new(stats_path))
         allow(console).to receive(:gets).and_return(Questioner::YES)
         expect(console.ask_about_save_results.class).to eq NilClass
       end
