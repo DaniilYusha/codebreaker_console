@@ -8,7 +8,6 @@ RSpec.describe Console do
   let(:console) { described_class.new }
 
   before do
-    allow($stdout).to receive(:write)
     console.instance_variable_set(:@game, game)
   end
 
