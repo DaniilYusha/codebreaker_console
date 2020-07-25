@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe Console do
-  let(:stats_path) { './db/test.yml' }
+  let(:stats_path) { './spec/test.yml' }
   let(:user) { Codebreaker::User.new('Daniil') }
   let(:difficulty) { Codebreaker::Difficulty.new('hell') }
   let(:game) { Codebreaker::Game.new(user, difficulty) }
   let(:console) { described_class.new }
 
   before do
+    allow($stdout).to receive(:write)
     console.instance_variable_set(:@game, game)
   end
 
