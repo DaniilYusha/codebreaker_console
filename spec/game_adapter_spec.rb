@@ -7,8 +7,6 @@ RSpec.describe GameAdapter do
   let(:difficulty) { Codebreaker::Difficulty.new('hell') }
   let(:game) { Codebreaker::Game.new(user, difficulty) }
 
-  before { allow($stdout).to receive(:write) }
-
   describe '.initialize' do
     it 'has field-instance of Console class' do
       expect(game_adapter.instance_variable_get(:@console).class).to eq Console
