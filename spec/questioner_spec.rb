@@ -12,7 +12,7 @@ RSpec.describe Console do
 
   describe '#ask_choose_game_option' do
     it 'puts commands description message' do
-      allow(console).to receive(:gets).and_return('exit')
+      allow(console).to receive(:gets).and_return(Questioner::EXIT_COMMAND)
       allow(console).to receive(:leave)
       expect { console.ask_choose_game_option }.to output(console.output.commands_description).to_stdout
     end
@@ -23,19 +23,19 @@ RSpec.describe Console do
     end
 
     it 'calls stats command' do
-      allow(console).to receive(:gets).and_return('stats')
+      allow(console).to receive(:gets).and_return(Questioner::STATS_COMMAND)
       expect(console).to receive(:stats)
       console.ask_choose_game_option
     end
 
     it 'calls rules command' do
-      allow(console).to receive(:gets).and_return('rules')
+      allow(console).to receive(:gets).and_return(Questioner::RULES_COMMAND)
       expect(console).to receive(:rules)
       console.ask_choose_game_option
     end
 
     it 'calls start command' do
-      allow(console).to receive(:gets).and_return('start')
+      allow(console).to receive(:gets).and_return(Questioner::START_COMMAND)
       allow(console).to receive(:start_game_process)
       expect(console).to receive(:start)
       console.ask_choose_game_option
@@ -59,8 +59,8 @@ RSpec.describe Console do
 
     context 'when passed unexpected command' do
       it 'puts unexpected command message' do
-        allow(console).to receive(:gets).and_return('YUSHA', 'n')
-        expect { console.ask_about_save_results }.to output(console.output.commands_description).to_stdout
+        allow(console).to receive(:gets).and_return('YUSHA', Questioner::NO)
+        expect { console.ask_about_save_results }.to output(console.output.unexpected_command).to_stdout
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe Console do
 
     context "when answer is #{Questioner::YES}" do
       it 'starts a new game and leave it' do
-        allow(console).to receive(:gets).and_return(Questioner::YES, 'exit')
+        allow(console).to receive(:gets).and_return(Questioner::YES, Questioner::EXIT_COMMAND)
         expect { console.ask_about_new_game }.to raise_error(SystemExit)
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe Console do
     context "when passed #{Questioner::HINT_COMMAND} command" do
       it 'calls hint method' do
         allow(console).to receive(:gets).and_return(Questioner::HINT_COMMAND)
-        expect(console).to receive(:hint)
+        expect(console.game_adapter).to receive(:hint)
         console.ask_choose_command_in_game_process
       end
     end
