@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Decorator
-  EXACT = '+'
-  INEXACT = '-'
+  EXACT_MATCH = '+'
+  INEXACT_MATCH = '-'
 
   def result_beautify(checked_code)
-    puts EXACT * checked_code.dig(:exact_matches) + INEXACT * checked_code.dig(:inexact_matches)
+    puts EXACT_MATCH * checked_code.dig(:exact_matches) + INEXACT_MATCH * checked_code.dig(:inexact_matches)
   end
 
   def stats_beautify(statistics)
