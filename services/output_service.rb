@@ -22,6 +22,34 @@ class OutputService
     puts I18n.t :unexpected_command
   end
 
+  def start_command
+    I18n.t 'commands.start'
+  end
+
+  def rules_command
+    I18n.t 'commands.rules'
+  end
+
+  def stats_command
+    I18n.t 'commands.stats'
+  end
+
+  def exit_command
+    I18n.t 'commands.exit'
+  end
+
+  def hint_command
+    I18n.t 'commands.hint'
+  end
+
+  def yes_answer
+    I18n.t 'answers.agree'
+  end
+
+  def no_answer
+    I18n.t 'answers.disagree'
+  end
+
   def show_rules
     puts I18n.t :rules
   end

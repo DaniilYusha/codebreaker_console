@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
 module Questioner
-  YES = 'y'
-  NO = 'n'
-  START_COMMAND = 'start'
-  RULES_COMMAND = 'rules'
-  STATS_COMMAND = 'stats'
-  EXIT_COMMAND = 'exit'
-  HINT_COMMAND = 'hint'
-
   def ask_about_new_game
     output.again
     input = gets.chomp
     case input
-    when YES then game_adapter.start_new_game game
-    when NO then leave
+    when output.yes_answer then game_adapter.start_new_game game
+    when output.no_answer then leave
     else output.unexpected_command
     end
     ask_about_new_game
@@ -24,8 +16,8 @@ module Questioner
     output.save
     input = gets.chomp
     case input
-    when YES then return statistics.store game
-    when NO then return
+    when output.yes_answer then return statistics.store game
+    when output.no_answer then return
     else output.unexpected_command
     end
     ask_about_save_results
@@ -35,10 +27,10 @@ module Questioner
     output.commands_description
     input = gets.chomp
     case input
-    when START_COMMAND then start
-    when RULES_COMMAND then rules
-    when STATS_COMMAND then stats
-    when EXIT_COMMAND then leave
+    when output.start_command then start
+    when output.rules_command then rules
+    when output.stats_command then stats
+    when output.exit_command then leave
     else output.unexpected_command
     end
   end
@@ -47,8 +39,8 @@ module Questioner
     output.enter_guess
     input = gets.chomp
     case input
-    when HINT_COMMAND then game_adapter.hint game
-    when EXIT_COMMAND then leave
+    when output.hint_command then game_adapter.hint game
+    when output.exit_command then leave
     else game_adapter.check_guess(game, input)
     end
   end

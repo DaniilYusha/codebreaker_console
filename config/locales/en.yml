@@ -29,6 +29,15 @@ en:
           game. If all attempts are spent - codebreaker loses.\n
           * Codebreaker also has some number of hints(depends on chosen difficulty). If a user takes\n
           a hint - he receives back a separate digit of the secret code."
+  commands:
+    start: 'start'
+    rules: 'rules'
+    stats: 'stats'
+    exit: 'exit'
+    hint: 'hint'
+  answers:
+    agree: 'y'
+    disagree: 'n'
   enter_name: 'Please, enter your name(3-20 symbols):'
   short_name: "Name is too short\n"
   enter_difficulty: 'Choose difficulty: easy, medium, hell:'
