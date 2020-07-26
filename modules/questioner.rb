@@ -13,7 +13,7 @@ module Questioner
     output.again
     input = gets.chomp
     case input
-    when YES then game_adapter.start_new_game
+    when YES then game_adapter.start_new_game game
     when NO then leave
     else output.unexpected_command
     end
@@ -47,9 +47,9 @@ module Questioner
     output.enter_guess
     input = gets.chomp
     case input
-    when HINT_COMMAND then game_adapter.hint
+    when HINT_COMMAND then game_adapter.hint game
     when EXIT_COMMAND then leave
-    else game_adapter.check_guess(input)
+    else game_adapter.check_guess(game, input)
     end
   end
 end

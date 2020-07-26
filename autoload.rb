@@ -11,3 +11,4 @@ require_relative 'modules/questioner'
 
 require_relative 'entities/console'
 require_relative 'entities/decorator'
+require_relative 'entities/game_adapter'
